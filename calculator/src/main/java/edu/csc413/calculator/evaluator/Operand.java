@@ -33,4 +33,13 @@ public class Operand {
     public static boolean check(String token) {
         return false;
     }
+
+    /*
+    Test Below
+
+    public static void main(String [] args){
+        Operand x = new Operand (42);
+        System.out.println(Operand.check("asdij"));
+        }
+     */
 }
