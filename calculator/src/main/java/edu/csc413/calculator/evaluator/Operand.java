@@ -5,25 +5,32 @@ package edu.csc413.calculator.evaluator;
  * in a valid mathematical expression.
  */
 public class Operand {
+
+    int value;
+
     /**
      * construct operand from string token.
      */
     public Operand(String token) {
+        if(!check(token)){
+            new InvalidTokenException();
+        }
 
+        this.value = Integer.parseInt(token);
     }
 
     /**
      * construct operand from integer
      */
     public Operand(int value) {
-
+        this.value = value;
     }
 
     /**
      * return value of operand
      */
     public int getValue() {
-        return 0;
+        return this.value;
     }
 
     /**
@@ -31,15 +38,7 @@ public class Operand {
      * operand.
      */
     public static boolean check(String token) {
-        return false;
+        return token.matches("[0-9]+");
     }
 
-    /*
-    Test Below
-
-    public static void main(String [] args){
-        Operand x = new Operand (42);
-        System.out.println(Operand.check("asdij"));
-        }
-     */
 }

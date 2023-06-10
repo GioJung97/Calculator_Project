@@ -3,7 +3,6 @@ package edu.csc413.calculator.operators;
 import edu.csc413.calculator.evaluator.Operand;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public abstract class Operator {
     // The Operator class should contain an instance of a HashMap
@@ -17,11 +16,16 @@ public abstract class Operator {
     // operators.put( "+", new AdditionOperator() );
     // operators.put( "-", new SubtractionOperator() );
 
-    private static Map<String, Operator> operators;
+    private static HashMap<String, Operator> operators;
 
     static {
        operators = new HashMap<>();
+
        operators.put("+", new AddOperator());
+       operators.put("-", new SubtractionOperator());
+       operators.put("*", new MultiplicationOperator());
+       operators.put("/", new DivisionOperator());
+       operators.put("^", new PowerOperator());
    }
 
     /**

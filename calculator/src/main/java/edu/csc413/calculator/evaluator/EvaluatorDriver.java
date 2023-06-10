@@ -114,8 +114,7 @@ public class EvaluatorDriver {
     }
 
     static void printTestResultsForAutoDriver() {
-        System.out
-                .println("|               Test Expression               | Expected Result |  Status  | Actual Result");
+        System.out.println("|               Test Expression               | Expected Result |  Status  | Actual Result");
         IntStream.range(0, 88).forEach((i) -> System.out.print("-"));
         EvaluatorDriver.testResults.forEach((testExpression, testResultInformation) -> {
             System.out.printf("\n| %43s | %15s | %9s | %s", testExpression,
