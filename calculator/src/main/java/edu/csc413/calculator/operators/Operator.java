@@ -20,11 +20,10 @@ public abstract class Operator {
 
     static {
        operators = new HashMap<>();
-
        operators.put("+", new AddOperator());
-       operators.put("-", new SubtractionOperator());
-       operators.put("*", new MultiplicationOperator());
-       operators.put("/", new DivisionOperator());
+       operators.put("-", new SubtractOperator());
+       operators.put("*", new MultiplyOperator());
+       operators.put("/", new DivideOperator());
        operators.put("^", new PowerOperator());
    }
 
@@ -51,7 +50,18 @@ public abstract class Operator {
      * @return reference to a Operator instance.
      */
     public static Operator getOperator(String token) {
-        return null;
+        switch (token){
+            case "+":
+                return operators.get("+");
+            case "-":
+                return operators.get("-");
+            case "*":
+                return operators.get("*");
+            case "/":
+                return operators.get("/");
+            case "^":
+                return operators.get("^");
+        }
     }
 
     
