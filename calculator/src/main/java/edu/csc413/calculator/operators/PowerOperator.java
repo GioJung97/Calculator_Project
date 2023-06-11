@@ -5,11 +5,17 @@ import edu.csc413.calculator.evaluator.Operand;
 public class PowerOperator extends Operator {
     @Override
     public int priority() {
-        return 0;
+        return 3;
     }
 
     @Override
     public Operand execute(Operand operandOne, Operand operandTwo) {
-        return null;
+        int value = 1;
+        for(int i = 0; i <= operandTwo.getValue(); i++){
+            value *= operandOne.getValue();
+        }
+        Operand result = new Operand (value);
+
+        return result;
     }
 }

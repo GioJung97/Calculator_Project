@@ -1,5 +1,6 @@
 package edu.csc413.calculator.operators;
 
+import edu.csc413.calculator.evaluator.InvalidTokenException;
 import edu.csc413.calculator.evaluator.Operand;
 
 import java.util.HashMap;
@@ -50,6 +51,11 @@ public abstract class Operator {
      * @return reference to a Operator instance.
      */
     public static Operator getOperator(String token) {
+
+        if(!check(token)){
+            new InvalidTokenException();
+        }
+
         switch (token){
             case "+":
                 return operators.get("+");
@@ -62,6 +68,8 @@ public abstract class Operator {
             case "^":
                 return operators.get("^");
         }
+
+        return operators.get(token);
     }
 
     
@@ -72,6 +80,6 @@ public abstract class Operator {
      * Think about what happens if we add more operators.
      */
     public static boolean check(String token) {
-        return false;
+        return token.matches(".*[+\\-*/^].*");
     }
 }

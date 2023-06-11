@@ -40,5 +40,4 @@ public class Operand {
     public static boolean check(String token) {
         return token.matches("[0-9]+");
     }
-
 }
