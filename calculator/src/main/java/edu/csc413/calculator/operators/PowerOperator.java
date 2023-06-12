@@ -10,12 +10,12 @@ public class PowerOperator extends Operator {
 
     @Override
     public Operand execute(Operand operandOne, Operand operandTwo) {
-        int value = 1;
-        for(int i = 0; i <= operandTwo.getValue(); i++){
-            value *= operandOne.getValue();
-        }
-        Operand result = new Operand (value);
+        Operand result = new Operand ((int) Math.pow(operandOne.getValue(), operandTwo.getValue()));
 
         return result;
+    }
+
+    public static void main(String[] args) {
+
     }
 }

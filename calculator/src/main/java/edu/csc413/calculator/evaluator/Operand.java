@@ -40,4 +40,8 @@ public class Operand {
     public static boolean check(String token) {
         return token.matches("[0-9]+");
     }
+
+    public static void main(String[] args) {
+        Operand x = new Operand("14");
+    }
 }

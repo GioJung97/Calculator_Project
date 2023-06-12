@@ -38,32 +38,31 @@ public class Evaluator {
         if ( Operand.check( expressionToken )) {
           operandStack.push( new Operand( expressionToken ));
         } else {
-          if ( ! Operator.check( expressionToken )) {
+          if (!Operator.check(expressionToken)) {
             throw new InvalidTokenException(expressionToken);
           }
-
 
           // TODO Operator is abstract - these two lines will need to be fixed:
           // The Operator class should contain an instance of a HashMap,
           // and values will be instances of the Operators.  See Operator class
           // skeleton for an example.
 
-          //Operator newOperator = Operator.getOperator(expressionToken);
+
           Operator newOperator = Operator.getOperator(expressionToken);
 
-          while (operatorStack.peek().priority() >= newOperator.priority() ) {
-            // note that when we eval the expression 1 - 2 we will
-            // push the 1 then the 2 and then do the subtraction operation
-            // This means that the first number to be popped is the
-            // second operand, not the first operand - see the following code
-            Operator operatorFromStack = operatorStack.pop();
-            Operand operandTwo = operandStack.pop();
-            Operand operandOne = operandStack.pop();
-            Operand result = operatorFromStack.execute( operandOne, operandTwo );
-            operandStack.push( result );
-          }
+            while (!operatorStack.isEmpty() && operatorStack.peek().priority() >= newOperator.priority()) {
+              // note that when we eval the expression 1 - 2 we will
+              // push the 1 then the 2 and then do the subtraction operation
+              // This means that the first number to be popped is the
+              // second operand, not the first operand - see the following code
+              Operator operatorFromStack = operatorStack.pop();
+              Operand operandTwo = operandStack.pop();
+              Operand operandOne = operandStack.pop();
+              Operand result = operatorFromStack.execute(operandOne, operandTwo);
+              operandStack.push(result);
+            }
 
-          operatorStack.push( newOperator );
+          operatorStack.push(newOperator);
         }
       }
     }
@@ -78,13 +77,24 @@ public class Evaluator {
     // that is, we should keep evaluating the operator stack until it is empty;
     // Suggestion: create a method that processes the operator stack until empty.
 
+    while ( !operatorStack.isEmpty() ) {
+      Operator operatorFromStack = operatorStack.pop();
+      Operand operandTwo = operandStack.pop();
+      Operand operandOne = operandStack.pop();
+      Operand result = operatorFromStack.execute(operandOne, operandTwo);
+      operandStack.push(result);
+    }
 
-
-    return 0;
+    return operandStack.pop().getValue();
   }
 
+//  public Stack restOperatorStack (Operator operatorStack){
+//
+//      return 0;
+//  }
+
   public static void main(String[] args) throws InvalidTokenException {
-    Evaluator test = new Evaluator();
-    test.evaluateExpression("1+2");
+    Evaluator x = new Evaluator();
+    System.out.println(x.evaluateExpression("1*(1+2)"));
   }
 }
