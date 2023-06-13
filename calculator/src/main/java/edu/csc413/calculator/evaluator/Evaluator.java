@@ -10,7 +10,7 @@ public class Evaluator {
   private Stack<Operand> operandStack;
   private Stack<Operator> operatorStack;
   private StringTokenizer expressionTokenizer;
-  private final String delimiters = " +/*-^";
+  private final String delimiters = " +/*-^()";
 
   public Evaluator() {
     operandStack = new Stack<>();
@@ -38,7 +38,11 @@ public class Evaluator {
         if ( Operand.check( expressionToken )) {
           operandStack.push( new Operand( expressionToken ));
         } else {
-          if (!Operator.check(expressionToken)) {
+          // check if token is an open parenthesis
+          if ("(".equals(expressionToken)) {
+            operatorStack.push(Operator.getOperator(expressionToken));
+            continue;
+          } else if (!Operator.check(expressionToken) && !")".equals(expressionToken)) {
             throw new InvalidTokenException(expressionToken);
           }
 
@@ -47,6 +51,16 @@ public class Evaluator {
           // and values will be instances of the Operators.  See Operator class
           // skeleton for an example.
 
+          //if statement to check if "(" is in the expression before pushing ")"
+          if(")".equals(expressionToken) && !operatorStack.contains(Operator.getOperator("("))){
+            throw new InvalidTokenException(expressionToken);
+          }
+
+          //if the expressionToken is ")", evaluate the expression in the parenthesis
+          if(!operatorStack.isEmpty() && expressionToken.equals((String)")")){
+            evaluateRest(operatorStack, operandStack);
+            continue;
+          }
 
           Operator newOperator = Operator.getOperator(expressionToken);
 
@@ -77,24 +91,34 @@ public class Evaluator {
     // that is, we should keep evaluating the operator stack until it is empty;
     // Suggestion: create a method that processes the operator stack until empty.
 
-    while ( !operatorStack.isEmpty() ) {
-      Operator operatorFromStack = operatorStack.pop();
-      Operand operandTwo = operandStack.pop();
-      Operand operandOne = operandStack.pop();
-      Operand result = operatorFromStack.execute(operandOne, operandTwo);
-      operandStack.push(result);
+    //check if operatorStack still has "("
+    if(operatorStack.contains(Operator.getOperator("("))){
+      throw new InvalidTokenException();
     }
+    //evaluate the rest of the expression
+    evaluateRest(operatorStack, operandStack);
+
+
 
     return operandStack.pop().getValue();
   }
 
-//  public Stack restOperatorStack (Operator operatorStack){
-//
-//      return 0;
-//  }
+  public void evaluateRest (Stack operatorStack, Stack operandStack) {
+    while (!operatorStack.isEmpty()) {
+      if (operatorStack.peek().equals(Operator.getOperator("("))) {
+        operatorStack.pop();
+        break;
+      }
+      Operator operatorFromStack = (Operator) operatorStack.pop();
+      Operand operandTwo = (Operand) operandStack.pop();
+      Operand operandOne = (Operand) operandStack.pop();
+      Operand result = operatorFromStack.execute(operandOne, operandTwo);
+      operandStack.push(result);
+    }
+  }
 
   public static void main(String[] args) throws InvalidTokenException {
     Evaluator x = new Evaluator();
-    System.out.println(x.evaluateExpression("1*(1+2)"));
+    System.out.println(x.evaluateExpression("3+4*(6+5-(1+2)"));
   }
 }

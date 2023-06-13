@@ -26,6 +26,8 @@ public abstract class Operator {
        operators.put("*", new MultiplyOperator());
        operators.put("/", new DivideOperator());
        operators.put("^", new PowerOperator());
+       operators.put("(", new OpenParanOperator());
+       operators.put(")", new CloseParenOperator());
    }
 
     /**
@@ -67,6 +69,10 @@ public abstract class Operator {
                 return operators.get("/");
             case "^":
                 return operators.get("^");
+            case "(":
+                return operators.get("(");
+            case ")":
+                return operators.get(")");
         }
 
         return operators.get(token);

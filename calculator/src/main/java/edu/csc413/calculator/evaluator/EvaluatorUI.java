@@ -25,6 +25,7 @@ public class EvaluatorUI extends JFrame implements ActionListener {
      * C  is for clear, clears entire expression
      * CE is for clear expression, clears last entry up until the last operator.
      */
+    //stores all the references to the buttons
     private JButton[] buttons = new JButton[buttonText.length];
 
     public static void main(String argv[]) {
@@ -74,8 +75,14 @@ public class EvaluatorUI extends JFrame implements ActionListener {
      * @param actionEventObject Event object generated when a
      *                    button is pressed.
      */
-    public void actionPerformed(ActionEvent actionEventObject) {
+    //inspect and use action object
 
+    public void actionPerformed(ActionEvent actionEventObject) {
+        String buttonClicked = actionEventObject.getActionCommand();
+        this.expressionTextField.setText(this.expressionTextField.getText() + buttonClicked);
+
+//        int result = new Evaluator().evaluateExpression("123");
+//        System.out.println(actionEventObject.getActionCommand()); //prints object
 
     }
 }
