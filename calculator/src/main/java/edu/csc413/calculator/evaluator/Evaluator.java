@@ -119,6 +119,6 @@ public class Evaluator {
 
   public static void main(String[] args) throws InvalidTokenException {
     Evaluator x = new Evaluator();
-    System.out.println(x.evaluateExpression("3+4*(6+5-(1+2)"));
+    System.out.println(x.evaluateExpression("1+2"));
   }
 }

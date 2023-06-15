@@ -9,6 +9,7 @@ public class EvaluatorUI extends JFrame implements ActionListener {
 
     private JTextField expressionTextField = new JTextField();
     private JPanel buttonPanel = new JPanel();
+    private String inputExpression = "";
 
     // total of 20 buttons on the calculator,
     // numbered from left to right, top to bottom
@@ -17,7 +18,7 @@ public class EvaluatorUI extends JFrame implements ActionListener {
         "7", "8", "9", "+",
         "4", "5", "6", "-", 
         "1", "2", "3", "*", 
-        "(", "0", ")", "/", 
+        "0", "(", ")", "/",
         "C", "CE", "=", "^"
     };
 
@@ -36,7 +37,8 @@ public class EvaluatorUI extends JFrame implements ActionListener {
         setLayout(new BorderLayout());
         this.expressionTextField.setPreferredSize(new Dimension(600, 50));
         this.expressionTextField.setFont(new Font("Courier", Font.BOLD, 24));
-        this.expressionTextField.setHorizontalAlignment(JTextField.CENTER);
+        this.expressionTextField.setHorizontalAlignment(JTextField.RIGHT);
+        this.expressionTextField.setText("0");
 
         add(expressionTextField, BorderLayout.NORTH);
         expressionTextField.setEditable(false);
@@ -79,10 +81,60 @@ public class EvaluatorUI extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent actionEventObject) {
         String buttonClicked = actionEventObject.getActionCommand();
-        this.expressionTextField.setText(this.expressionTextField.getText() + buttonClicked);
 
-//        int result = new Evaluator().evaluateExpression("123");
-//        System.out.println(actionEventObject.getActionCommand()); //prints object
+        if(buttonClicked == "C") {
+            inputExpression = "";
+            this.expressionTextField.setText("");
+        }else if(buttonClicked == "CE") {
+            eraseLastDigit(inputExpression);
+            this.expressionTextField.setText(eraseLastDigit(inputExpression));
+        }else if (buttonClicked.equals("=")){
+                Evaluator currExpression = new Evaluator ();
+                try {
+                    int result = currExpression.evaluateExpression(inputExpression);
+                    inputExpression = Integer.toString(result);
+                } catch (InvalidTokenException e) {
+                    expressionTextField.setText("Error");
+                    throw new RuntimeException(e);
+                }
+
+                expressionTextField.setText(inputExpression);
+
+//                try {
+//                    expressionTextField.setText(String.valueOf(currExpression.evaluateExpression(inputExpression)));
+//                } catch (InvalidTokenException e) {
+//                    expressionTextField.setText("Error");
+//                    inputExpression = "";
+//                    throw new RuntimeException(e);
+//                }
+        }else{
+            inputExpression += buttonClicked;
+            expressionTextField.setText(inputExpression);
+        }
+
 
     }
+    public static String eraseLastDigit(String str) {
+        if (str == null || str.isEmpty()) {
+            return str;
+        }
+
+        return str.substring(0, str.length() - 1);
+    }
+//    public String operatorButton (JPanel buttonClicked){
+//        switch (buttonClicked){
+//            case "+": this.expressionTextField.setText("");
+//                return "+";
+//            case "-": this.expressionTextField.setText("");
+//                return "-";
+//            case "*": this.expressionTextField.setText("");
+//                return "*";
+//            case "/": this.expressionTextField.setText("");
+//                return "/";
+//            case "^": this.expressionTextField.setText("");
+//                return "^";
+//        }
+//
+//        return this.expressionTextField.setText(buttonClicked);
+//    }
 }
