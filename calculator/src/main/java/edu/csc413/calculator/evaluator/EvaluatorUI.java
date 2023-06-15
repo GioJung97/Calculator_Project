@@ -1,5 +1,7 @@
 package edu.csc413.calculator.evaluator;
 
+import edu.csc413.calculator.operators.Operator;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,11 +17,11 @@ public class EvaluatorUI extends JFrame implements ActionListener {
     // numbered from left to right, top to bottom
     // bText[] array contains the text for corresponding buttons
     private static final String[] buttonText = {
-        "7", "8", "9", "+",
-        "4", "5", "6", "-", 
-        "1", "2", "3", "*", 
-        "0", "(", ")", "/",
-        "C", "CE", "=", "^"
+            "7", "8", "9", "+",
+            "4", "5", "6", "-",
+            "1", "2", "3", "*",
+            "0", "(", ")", "/",
+            "C", "CE", "=", "^"
     };
 
     /**
@@ -38,7 +40,6 @@ public class EvaluatorUI extends JFrame implements ActionListener {
         this.expressionTextField.setPreferredSize(new Dimension(600, 50));
         this.expressionTextField.setFont(new Font("Courier", Font.BOLD, 24));
         this.expressionTextField.setHorizontalAlignment(JTextField.RIGHT);
-        this.expressionTextField.setText("0");
 
         add(expressionTextField, BorderLayout.NORTH);
         expressionTextField.setEditable(false);
@@ -74,46 +75,41 @@ public class EvaluatorUI extends JFrame implements ActionListener {
     /**
      * This function is triggered anytime a button is pressed
      * on our Calculator GUI.
+     *
      * @param actionEventObject Event object generated when a
-     *                    button is pressed.
+     *                          button is pressed.
      */
     //inspect and use action object
-
     public void actionPerformed(ActionEvent actionEventObject) {
         String buttonClicked = actionEventObject.getActionCommand();
 
-        if(buttonClicked == "C") {
+        if (buttonClicked == "C") {
             inputExpression = "";
             this.expressionTextField.setText("");
-        }else if(buttonClicked == "CE") {
-            eraseLastDigit(inputExpression);
-            this.expressionTextField.setText(eraseLastDigit(inputExpression));
-        }else if (buttonClicked.equals("=")){
-                Evaluator currExpression = new Evaluator ();
-                try {
-                    int result = currExpression.evaluateExpression(inputExpression);
-                    inputExpression = Integer.toString(result);
-                } catch (InvalidTokenException e) {
-                    expressionTextField.setText("Error");
-                    throw new RuntimeException(e);
-                }
-
-                expressionTextField.setText(inputExpression);
-
-//                try {
-//                    expressionTextField.setText(String.valueOf(currExpression.evaluateExpression(inputExpression)));
-//                } catch (InvalidTokenException e) {
-//                    expressionTextField.setText("Error");
-//                    inputExpression = "";
-//                    throw new RuntimeException(e);
-//                }
-        }else{
+        } else if (buttonClicked == "CE") {
+            inputExpression = eraseLastDigit(inputExpression);
+            this.expressionTextField.setText(inputExpression);
+        } else if (buttonClicked.equals("=")) {
+            Evaluator currExpression = new Evaluator();
+            try {
+                int result = currExpression.evaluateExpression(inputExpression);
+                inputExpression = Integer.toString(result);
+            } catch (InvalidTokenException e) {
+                expressionTextField.setText("Error");
+                throw new RuntimeException(e);
+            }
+            expressionTextField.setText(inputExpression);
+        }
+//        else if (Operator.check(expressionTextField.getText() + buttonClicked)) {
+//            expressionTextField.setText("");
+//
+//        }
+        else {
             inputExpression += buttonClicked;
             expressionTextField.setText(inputExpression);
         }
-
-
     }
+
     public static String eraseLastDigit(String str) {
         if (str == null || str.isEmpty()) {
             return str;
@@ -121,20 +117,4 @@ public class EvaluatorUI extends JFrame implements ActionListener {
 
         return str.substring(0, str.length() - 1);
     }
-//    public String operatorButton (JPanel buttonClicked){
-//        switch (buttonClicked){
-//            case "+": this.expressionTextField.setText("");
-//                return "+";
-//            case "-": this.expressionTextField.setText("");
-//                return "-";
-//            case "*": this.expressionTextField.setText("");
-//                return "*";
-//            case "/": this.expressionTextField.setText("");
-//                return "/";
-//            case "^": this.expressionTextField.setText("");
-//                return "^";
-//        }
-//
-//        return this.expressionTextField.setText(buttonClicked);
-//    }
 }
