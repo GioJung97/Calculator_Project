@@ -41,7 +41,9 @@ public class Operand {
         return token.matches("[0-9]+");
     }
 
-    public static void main(String[] args) {
+    //test if it works properly
+    public static void main(String[] args) throws InvalidTokenException {
         Operand x = new Operand("14");
+        System.out.println(x.getValue());
     }
 }

@@ -85,12 +85,14 @@ public class EvaluatorUI extends JFrame implements ActionListener {
 
         if (buttonClicked == "C") {
             inputExpression = "";
-            this.expressionTextField.setText("");
+            this.expressionTextField.setText(inputExpression);
         } else if (buttonClicked == "CE") {
             inputExpression = eraseLastDigit(inputExpression);
             this.expressionTextField.setText(inputExpression);
         } else if (buttonClicked.equals("=")) {
+
             Evaluator currExpression = new Evaluator();
+            //evaluate the expression
             try {
                 int result = currExpression.evaluateExpression(inputExpression);
                 inputExpression = Integer.toString(result);
@@ -98,18 +100,15 @@ public class EvaluatorUI extends JFrame implements ActionListener {
                 expressionTextField.setText("Error");
                 throw new RuntimeException(e);
             }
+
             expressionTextField.setText(inputExpression);
-        }
-//        else if (Operator.check(expressionTextField.getText() + buttonClicked)) {
-//            expressionTextField.setText("");
-//
-//        }
-        else {
+        }else {
             inputExpression += buttonClicked;
             expressionTextField.setText(inputExpression);
         }
     }
 
+    //Erase Last Digit Method
     public static String eraseLastDigit(String str) {
         if (str == null || str.isEmpty()) {
             return str;

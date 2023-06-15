@@ -53,11 +53,11 @@ public abstract class Operator {
      * @return reference to a Operator instance.
      */
     public static Operator getOperator(String token) {
-
+        //check if the token is valid
         if(!check(token)){
             new InvalidTokenException();
         }
-
+        //use switch case to call the proper operators
         switch (token){
             case "+":
                 return operators.get("+");

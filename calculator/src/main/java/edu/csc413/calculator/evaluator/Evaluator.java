@@ -2,6 +2,7 @@ package edu.csc413.calculator.evaluator;
 
 import edu.csc413.calculator.operators.*;
 
+import java.util.EmptyStackException;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
@@ -51,12 +52,12 @@ public class Evaluator {
           // and values will be instances of the Operators.  See Operator class
           // skeleton for an example.
 
-          //if statement to check if "(" is in the expression before pushing ")"
+          //check if "(" is in the expression before pushing ")"
           if(")".equals(expressionToken) && !operatorStack.contains(Operator.getOperator("("))){
             throw new InvalidTokenException(expressionToken);
           }
 
-          //if the expressionToken is ")", evaluate the expression in the parenthesis
+          //check if expressionToken is ")", evaluate the expression in the parenthesis
           if(!operatorStack.isEmpty() && expressionToken.equals((String)")")){
             evaluateRest(operatorStack, operandStack);
             continue;
@@ -81,7 +82,6 @@ public class Evaluator {
       }
     }
 
-
     // Control gets here when we've picked up all of the tokens; you must add
     // code to complete the evaluation - consider how the code given here
     // will evaluate the expression 1+2*3
@@ -95,10 +95,9 @@ public class Evaluator {
     if(operatorStack.contains(Operator.getOperator("("))){
       throw new InvalidTokenException();
     }
+
     //evaluate the rest of the expression
     evaluateRest(operatorStack, operandStack);
-
-
 
     return operandStack.pop().getValue();
   }
@@ -117,8 +116,9 @@ public class Evaluator {
     }
   }
 
+  //test if it works properly
   public static void main(String[] args) throws InvalidTokenException {
     Evaluator x = new Evaluator();
-    System.out.println(x.evaluateExpression("1+2"));
+    System.out.println(x.evaluateExpression("2+3-5**(2-3)*2"));
   }
 }
