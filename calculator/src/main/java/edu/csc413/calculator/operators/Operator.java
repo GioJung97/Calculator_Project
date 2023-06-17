@@ -88,4 +88,12 @@ public abstract class Operator {
     public static boolean check(String token) {
         return token.matches(".*[+\\-*/^].*");
     }
+
+    //test if it works properly
+    public static void main(String[] args) {
+        Operand operandOne = new Operand("1");
+        Operand operandTwo = new Operand("2");
+        Operator x = Operator.getOperator("+");
+        System.out.println(x.execute(operandOne,operandTwo).getValue());
+    }
 }
